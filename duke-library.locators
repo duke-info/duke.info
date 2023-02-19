@@ -1,0 +1,4 @@
+@type locator-locator
+
+junit@5.9.2=library/junit@5.9.2.locator
+streamex@0.8.1=library/streamex@0.8.1.locator

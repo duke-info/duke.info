@@ -1,4 +1,4 @@
-@type module-locator
+@type library-locator
 
 org.apiguardian.api=https://repo.maven.apache.org/maven2/org/apiguardian/apiguardian-api/1.1.2/apiguardian-api-1.1.2.jar#SIZE=6806
 org.junit.jupiter=https://repo.maven.apache.org/maven2/org/junit/jupiter/junit-jupiter/5.9.2/junit-jupiter-5.9.2.jar#SIZE=6359
