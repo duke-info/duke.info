@@ -1,6 +1,3 @@
-@type tool-locator
-@tool java-program
-
 google-java-format-1.15.0-all-deps.jar=\
     https://github.com\
     /google\
