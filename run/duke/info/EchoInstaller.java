@@ -4,7 +4,6 @@ import java.io.PrintWriter;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.util.spi.ToolProvider;
-
 import run.duke.Program;
 import run.duke.Tool;
 import run.duke.ToolFinder;
@@ -38,8 +37,7 @@ public record EchoInstaller(String name) implements ToolInstaller {
         Tool.of(namespace(), name() + "@" + version, echoTool),
         Tool.of(namespace(), name() + ".java@" + version, echoSource),
         Tool.of(namespace(), name() + ".jar@" + version, echoBinary),
-        Tool.of(namespace(), name() + ".tool@" + version, echoTool)
-    );
+        Tool.of(namespace(), name() + ".tool@" + version, echoTool));
   }
 
   private static final String ECHO_JAVA =
@@ -56,6 +54,7 @@ public record EchoInstaller(String name) implements ToolInstaller {
     EchoTool() {
       this("echo");
     }
+
     @Override
     public ToolProvider provider() {
       return this;
