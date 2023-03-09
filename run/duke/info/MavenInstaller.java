@@ -2,24 +2,20 @@ package run.duke.info;
 
 import java.net.URI;
 import java.nio.file.Files;
+import java.nio.file.Path;
 import run.duke.Program;
 import run.duke.Tool;
 import run.duke.ToolFinder;
 import run.duke.ToolInstaller;
 import run.duke.Workbench;
 
-public record MavenInstaller() implements ToolInstaller {
-  @Override
-  public String name() {
-    return "maven";
+public record MavenInstaller(String name) implements ToolInstaller {
+  public MavenInstaller() {
+    this("maven");
   }
 
   @Override
-  public ToolFinder install(Workbench workbench, String version) throws Exception {
-    var namespace = namespace();
-    var nameAndVersion = name() + "@" + version;
-    var folder = workbench.folders().tool(namespace, nameAndVersion);
-    Files.createDirectories(folder);
+  public ToolFinder install(Workbench workbench, Path folder, String version) throws Exception {
     var base = "https://repo.maven.apache.org/maven2/org/apache/maven/";
     var mavenWrapperProperties = folder.resolve("maven-wrapper.properties");
     if (Files.notExists(mavenWrapperProperties)) {
@@ -41,6 +37,6 @@ public record MavenInstaller() implements ToolInstaller {
                 "--class-path=" + mavenWrapperJar,
                 "org.apache.maven.wrapper.MavenWrapperMain")
             .orElseThrow();
-    return ToolFinder.of(Tool.of(namespace, nameAndVersion, provider));
+    return ToolFinder.of(Tool.of(namespace(), name() + '@' + version, provider));
   }
 }

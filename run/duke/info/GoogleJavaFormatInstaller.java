@@ -1,7 +1,7 @@
 package run.duke.info;
 
 import java.net.URI;
-import java.nio.file.Files;
+import java.nio.file.Path;
 import java.util.Map;
 import run.duke.Program;
 import run.duke.Tool;
@@ -9,10 +9,9 @@ import run.duke.ToolFinder;
 import run.duke.ToolInstaller;
 import run.duke.Workbench;
 
-public record GoogleJavaFormatInstaller() implements ToolInstaller {
-  @Override
-  public String name() {
-    return "google-java-format";
+public record GoogleJavaFormatInstaller(String name) implements ToolInstaller {
+  public GoogleJavaFormatInstaller() {
+    this("google-java-format");
   }
 
   private Map<String, String> assets(String version) {
@@ -39,17 +38,14 @@ public record GoogleJavaFormatInstaller() implements ToolInstaller {
   }
 
   @Override
-  public ToolFinder install(Workbench workbench, String version) throws Exception {
+  public ToolFinder install(Workbench workbench, Path folder, String version) {
     var browser = workbench.browser();
-    var nameAndVersion = name() + '@' + version;
-    var folder = workbench.folders().tool(namespace(), nameAndVersion);
-    Files.createDirectories(folder);
     for (var asset : assets(version).entrySet()) {
       var source = URI.create(asset.getValue());
       var target = folder.resolve(asset.getKey());
       browser.download(source, target);
     }
     var program = Program.findJavaProgram(folder).orElseThrow();
-    return ToolFinder.of(Tool.of(namespace(), nameAndVersion, program));
+    return ToolFinder.of(Tool.of(namespace(), name() + '@' + version, program));
   }
 }
